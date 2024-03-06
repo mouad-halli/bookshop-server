@@ -1,0 +1,51 @@
+{
+  "name": "chatpals-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npx nodemon",
+    "build": "rimraf ./build && tsc",
+    "start": "npm run build && node build/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mouad-halli/ChatPals-server.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mouad-halli/ChatPals-server/issues"
+  },
+  "homepage": "https://github.com/mouad-halli/ChatPals-server#readme",
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/cookie-parser": "^1.4.3",
+    "@types/cors": "^2.8.13",
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.17",
+    "@types/jsonwebtoken": "^9.0.1",
+    "@types/node": "^18.15.10",
+    "@types/passport": "^1.0.12",
+    "@types/passport-google-oauth2": "^0.1.5",
+    "nodemon": "^2.0.22",
+    "rimraf": "^4.4.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.2"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "http-status-codes": "^2.2.0",
+    "joi": "^17.9.2",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.0.3",
+    "passport": "^0.6.0",
+    "passport-google-oauth2": "^0.2.0"
+  }
+}
