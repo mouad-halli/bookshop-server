@@ -5,6 +5,7 @@ import { STATUS_CODES } from 'http'
 import { connectToDatabase } from './config/database'
 import userRoutes from './routes/user.routes'
 import authenticationRoutes from './routes/authentication.routes'
+import cartRoutes from './routes/cart.routes'
 import cookieParser from 'cookie-parser'
 import { Usertype } from './types/user'
 import passport from 'passport'
@@ -36,6 +37,7 @@ app.use(passport.initialize())
 
 app.use('/user', userRoutes)
 app.use('/authentication', authenticationRoutes)
+app.use('/cart', cartRoutes)
 
 app.use((error: any, req: Request, res: Response, next: NextFunction) => {
 	const errorStatus = error.status || 500
