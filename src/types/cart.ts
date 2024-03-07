@@ -3,7 +3,7 @@ import { IUser } from "./user";
 import { IBook } from "./book";
 
 export interface ICartItem {
-    item: IBook
+    product: IBook
     quantity: number
 }
 

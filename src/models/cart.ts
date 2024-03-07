@@ -2,7 +2,7 @@ import { Schema, model } from "mongoose";
 import { ICart, ICartItem } from "../types/cart";
 
 const CartItemSchema = new Schema<ICartItem>({
-    item: { type: Schema.Types.ObjectId, ref: 'Book' },
+    product: { type: Schema.Types.ObjectId, ref: 'Book' },
     quantity: { type: Number }
 })
 
