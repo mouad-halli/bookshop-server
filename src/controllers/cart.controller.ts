@@ -1,12 +1,10 @@
 import { Request, Response, NextFunction } from 'express'
 import { StatusCodes } from 'http-status-codes'
 import Cart from '../models/cart'
-import { IBook } from '../types/book'
 import { ICartItem } from '../types/cart'
 import Book from '../models/book'
 import { isValidObjectId } from 'mongoose'
 import { createError } from '../utils/error'
-import user from '../models/user'
 
 const { OK, CREATED, BAD_REQUEST, NOT_FOUND } = StatusCodes
 
@@ -61,10 +59,10 @@ const updateCart = async (req: Request, res: Response, next: NextFunction) => {
             await userCart.save()
         }
         else {
-            await new Cart({
+            await Cart.create({
                 owner: userId,
                 items: [{ product, quantity }]
-            }).save()
+            })
         }
 
         res.status(CREATED).json("cart updated successfully")

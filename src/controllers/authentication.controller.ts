@@ -21,12 +21,12 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
         const salt = await bcryptjs.genSalt(10)
         const hash = await bcryptjs.hash(req.body.password, salt)
 
-        await new User({
+        await User.create({
             firstname: req.body.firstname,
             lastname: req.body.lastname,
             email: req.body.email,
             password: hash
-        }).save()
+        })
 
         res.status(CREATED).json('registered successfully')
         

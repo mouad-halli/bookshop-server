@@ -6,11 +6,12 @@ const CartItemSchema = new Schema<ICartItem>({
     quantity: { type: Number }
 })
 
-const CartItem = model<ICartItem>('CartItem', CartItemSchema)
+// const CartItem = model<ICartItem>('CartItem', CartItemSchema)
 
 const CartSchema = new Schema<ICart>({
     owner: { type: Schema.Types.ObjectId, ref: 'User', select: false },
-    items: [CartItem]
+    // items: [{ type:Schema.Types.ObjectId, ref: 'CartItem' }]
+    items: [CartItemSchema]
 })
 
 export default model<ICart>('Cart', CartSchema)
