@@ -27,10 +27,19 @@ const updateUserPasswordSchema = Joi.object({
     newPassword: Joi.string().min(8).max(28)
     .regex(PASSWORD_REGEX).required()
     .messages({
-        "string.pattern.base": '"password" must contain min 8 characters, 1 symbol, 1 upercase, 1 lowercase and a number'
+        "string.pattern.base": '"newPassword" must contain min 8 characters, 1 symbol, 1 upercase, 1 lowercase and a number'
     }),
-    passwordConfirmation: Joi.ref('password')
+    passwordConfirmation: Joi.ref('newPassword')
+})
+
+const upsertUserAddressSchema = Joi.object({
+    address1: Joi.string().required(),
+    address2: Joi.string().required(),
+    country: Joi.string().required(),
+    city: Joi.string().required(),
+    zipCode: Joi.string().regex(/^\d{5}(-\d{4})?$/).messages({'string.pattern.base': `"zipCode" invalid Zip Code.`}).required()
 })
 
 export const validateUpdateUserInformation = validator(updateUserInformationSchema, { abortEarly: true })
 export const validateUpdateUserPassword = validator(updateUserPasswordSchema, { abortEarly: true })
+export const validateUpsertUserAddress = validator(upsertUserAddressSchema, { abortEarly: true })

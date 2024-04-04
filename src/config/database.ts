@@ -3,9 +3,9 @@ import { DB_LINK } from './environment'
 
 mongoose.set("strictQuery", false)
 
-const connectToDatabase = () => {
+const connectToDatabase = async () => {
     try {
-        mongoose.connect(String(DB_LINK))
+        await mongoose.connect(String(DB_LINK))
     } catch (error) {
         throw error
     }

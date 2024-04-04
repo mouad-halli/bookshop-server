@@ -15,7 +15,7 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
     try {
 
         if (await User.findOne({ email: req.body.email })) {
-            return next(createError(BAD_REQUEST, "this email is already in use"))
+            return next(createError(BAD_REQUEST, "\"email\" this email is already in use"))
         }
 
         const salt = await bcryptjs.genSalt(10)

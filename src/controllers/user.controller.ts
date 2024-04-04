@@ -4,6 +4,7 @@ import User from '../models/user'
 import bcryptjs from 'bcryptjs'
 import { createError } from "../utils/error"
 import { SERVER_URL } from "../config/environment"
+import Address from "../models/address"
 
 const { OK, CREATED, BAD_REQUEST } = StatusCodes
 
@@ -24,7 +25,7 @@ const getMe = (req: Request, res: Response, next: NextFunction) => {
 const createUser = (req: Request, res: Response, next: NextFunction) => {
     try {
         
-        res.status(CREATED).json('create user called')
+        res.status(OK).json('create user called')
 
     } catch (error) {
         next(error)
@@ -35,7 +36,7 @@ const updateUserInformation = async (req: Request, res: Response, next: NextFunc
     try {
         if (req.body.email) {
             if (await User.findOne({$and: [{email: req.body.email}, {_id: {$ne: req.user._id}}]}))
-                return next(createError(BAD_REQUEST, "email already in use"))
+                return next(createError(BAD_REQUEST, "\"email\" email already in use"))
         }
 
         if (req.body.password) {
@@ -50,7 +51,33 @@ const updateUserInformation = async (req: Request, res: Response, next: NextFunc
             { new: true, fields: { _id: 0, __v: 0 } }
         )
 
-        res.status(OK).json(updatedUserData)
+        res.status(CREATED).json(updatedUserData)
+
+    } catch (error) {
+        next(error)
+    }
+}
+
+const getUserAddress = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const userAddress = await Address.findOne({user: req.user._id})
+        
+        res.status(OK).json(userAddress)
+    } catch (error) {
+        next(error)
+    }
+}
+
+const upsertUserAddress = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+
+        const userAddress = await Address.findOneAndUpdate(
+            { user: req.user._id},
+            { $set: req.body },
+            { new: true, fields: { _id: 0, __v: 0 }, upsert: true }
+        )
+
+        res.status(OK).json(userAddress)
 
     } catch (error) {
         next(error)
@@ -65,7 +92,7 @@ const updateUserPassword = async (req: Request, res: Response, next: NextFunctio
         const user = await User.findOne({_id: req.user._id}).select("password")
 
         if (!user || !await bcryptjs.compare(currentPassword, user.password))
-            return next(createError(BAD_REQUEST, "incorrect password"))
+            return next(createError(BAD_REQUEST, "\"currentPassword\" incorrect password"))
 
         const salt = await bcryptjs.genSalt(10)
         const hash = await bcryptjs.hash(req.body.password, salt)
@@ -76,7 +103,7 @@ const updateUserPassword = async (req: Request, res: Response, next: NextFunctio
             { $set: { password: newPassword } }
         )
 
-        res.status(OK).json("password updated successfully")
+        res.status(CREATED).json("password updated successfully")
 
     } catch (error) {
         next(error)
@@ -111,6 +138,6 @@ const deleteUser = (req: Request, res: Response, next: NextFunction) => {
 }
 
 export = {
-    getUser, createUser, updateUserInformation, updateUserPassword,
-    deleteUser, getMe, /*updateUserImage*/
+    getUser, createUser, updateUserInformation, upsertUserAddress, updateUserPassword,
+    deleteUser, getMe, getUserAddress, /*updateUserImage*/
 }
