@@ -5,6 +5,8 @@ import bcryptjs from 'bcryptjs'
 import { createError } from "../utils/error"
 import { SERVER_URL } from "../config/environment"
 import Address from "../models/address"
+import Book from "../models/book"
+import { isValidObjectId } from "mongoose"
 
 const { OK, CREATED, BAD_REQUEST } = StatusCodes
 
@@ -127,7 +129,7 @@ const updateUserPassword = async (req: Request, res: Response, next: NextFunctio
 //     }
 // }
 
-const deleteUser = (req: Request, res: Response, next: NextFunction) => {
+const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
         
         res.status(OK).json('delete user called')
@@ -137,7 +139,25 @@ const deleteUser = (req: Request, res: Response, next: NextFunction) => {
     }
 }
 
+const getUserListings = async (req: Request, res: Response, next: NextFunction) => {
+
+    try {
+
+        if (!isValidObjectId(req.params.user_id))
+            return next(createError(BAD_REQUEST, "invalid user id"))
+
+        const userListings = await Book.find({ seller: req.params.user_id })
+
+        res.status(OK).json(userListings)
+
+    } catch (error) {
+        next(error)
+    }
+
+}
+
+
 export = {
     getUser, createUser, updateUserInformation, upsertUserAddress, updateUserPassword,
-    deleteUser, getMe, getUserAddress, /*updateUserImage*/
+    deleteUser, getMe, getUserAddress, getUserListings, /*updateUserImage*/
 }
