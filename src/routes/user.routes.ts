@@ -20,7 +20,9 @@ router.put('/password', verifyAuthentication, validateBody(validateUpdateUserPas
 
 router.put('/address', verifyAuthentication, validateBody(validateUpsertUserAddress), userControllers.upsertUserAddress)
 
-router.put('/lisstings/:user_id', userControllers.getUserListings)
+router.get('/listings/:user_id', userControllers.getUserListings)
+
+router.get('/my-listings', verifyAuthentication, userControllers.getMyListings)
 
 // router.put('/upload/image', verifyAuthentication, upload.single('image'), userControllers.updateUserImage)
 

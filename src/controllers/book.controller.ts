@@ -4,7 +4,7 @@ import { isValidObjectId } from 'mongoose';
 import { createError } from "../utils/error";
 import { StatusCodes } from "http-status-codes";
 
-const { OK, CREATED, BAD_REQUEST, UNAUTHORIZED, NO_CONTENT } = StatusCodes
+const { OK, CREATED, BAD_REQUEST, FORBIDDEN, NO_CONTENT } = StatusCodes
 
 const getBookById = async (req: Request, res: Response, next:NextFunction) => {
     try {
@@ -48,7 +48,7 @@ const updateBook = async (req: Request, res: Response, next:NextFunction) => {
             return next(createError(BAD_REQUEST, "invalid book id"))
 
         const updatedBook = await Book.findOneAndUpdate(
-            {_id: req.params.book_id},
+            {_id: req.params.book_id, seller: req.user._id},
             { $set: req.body },
             { new: true }
         )
@@ -69,12 +69,12 @@ const deleteBook = async (req: Request, res: Response, next:NextFunction) => {
 
         if (!book)
             return next(createError(BAD_REQUEST, "book not found"))
-        if (book.seller._id != req.user._id)
-            return next(createError(UNAUTHORIZED, "only the book owner can delete his listing"))
+        if (String(req.user._id) !== String(book.seller._id))
+            return next(createError(FORBIDDEN, "only the book owner can delete his listing"))
 
         await book.deleteOne()
 
-        res.status(NO_CONTENT)
+        res.status(NO_CONTENT).send()
 
     } catch (error) {
         next(error)

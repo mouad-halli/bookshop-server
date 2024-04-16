@@ -7,6 +7,7 @@ import { SERVER_URL } from "../config/environment"
 import Address from "../models/address"
 import Book from "../models/book"
 import { isValidObjectId } from "mongoose"
+import { getBooksByUserId } from "../services/book.service"
 
 const { OK, CREATED, BAD_REQUEST } = StatusCodes
 
@@ -146,7 +147,21 @@ const getUserListings = async (req: Request, res: Response, next: NextFunction) 
         if (!isValidObjectId(req.params.user_id))
             return next(createError(BAD_REQUEST, "invalid user id"))
 
-        const userListings = await Book.find({ seller: req.params.user_id })
+        const userListings = await getBooksByUserId(req.params.user_id)
+
+        res.status(OK).json(userListings)
+
+    } catch (error) {
+        next(error)
+    }
+
+}
+
+const getMyListings = async (req: Request, res: Response, next: NextFunction) => {
+
+    try {
+
+        const userListings = await getBooksByUserId(String(req.user._id))
 
         res.status(OK).json(userListings)
 
@@ -159,5 +174,5 @@ const getUserListings = async (req: Request, res: Response, next: NextFunction) 
 
 export = {
     getUser, createUser, updateUserInformation, upsertUserAddress, updateUserPassword,
-    deleteUser, getMe, getUserAddress, getUserListings, /*updateUserImage*/
+    deleteUser, getMe, getUserAddress, getUserListings, getMyListings/*updateUserImage*/
 }

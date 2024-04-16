@@ -5,6 +5,7 @@ import { STATUS_CODES } from 'http'
 import { connectToDatabase } from './config/database'
 import userRoutes from './routes/user.routes'
 import authenticationRoutes from './routes/authentication.routes'
+import bookRoutes from './routes/book.routes'
 import cartRoutes from './routes/cart.routes'
 import cookieParser from 'cookie-parser'
 import { Usertype } from './types/user'
@@ -37,6 +38,7 @@ app.use(passport.initialize())
 
 app.use('/user', userRoutes)
 app.use('/authentication', authenticationRoutes)
+app.use('/book', bookRoutes)
 app.use('/cart', cartRoutes)
 
 app.use((error: any, req: Request, res: Response, next: NextFunction) => {

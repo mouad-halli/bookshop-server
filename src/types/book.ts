@@ -7,6 +7,7 @@ export interface IBook {
     author: string
     description: string
     price: number
+    year: number
     genre: string
     language: string
     seller: IUser
