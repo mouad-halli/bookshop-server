@@ -27,10 +27,10 @@ const getBookById = async (req: Request, res: Response, next:NextFunction) => {
 const createBook = async (req: Request, res: Response, next:NextFunction) => {
     try {
         
-        const { title, author, description, genre, language, price, year } = req.body
+        const { title, author, description, genre, bookLanguage, price, year } = req.body
 
         const book = await Book.create({
-            title, author, description, genre, language, price, year,
+            title, author, description, genre, bookLanguage, price, year,
             seller: req.user._id
         })
 

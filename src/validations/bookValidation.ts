@@ -7,7 +7,7 @@ const createBookSchema = Joi.object({
     author: Joi.string().required(),
     description: Joi.string().required(),
     genre: Joi.string().required().valid(...Object.values(GENRES)),
-    language: Joi.string().required().valid(...Object.values(LANGUAGES)),
+    bookLanguage: Joi.string().required().valid(...Object.values(LANGUAGES)),
     price: Joi.number().min(0).required(),
     year: Joi.number().min(1).integer().required()
 })
@@ -17,7 +17,7 @@ const updateeBookSchema = Joi.object({
     author: Joi.string(),
     description: Joi.string(),
     genre: Joi.string().valid(...Object.values(GENRES)),
-    language: Joi.string().valid(...Object.values(LANGUAGES)),
+    bookLanguage: Joi.string().valid(...Object.values(LANGUAGES)),
     price: Joi.number().min(0),
     year: Joi.number().min(1).integer()
 })

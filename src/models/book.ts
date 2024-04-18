@@ -7,8 +7,9 @@ const BookSchema = new Schema<IBook>({
     author: { type: String },
     description: { type: String },
     genre: { type: String, enum: GENRES },
-    language: { type: String, enum: LANGUAGES },
+    bookLanguage: { type: String, enum: LANGUAGES },
     price: { type: Number },
+    year: { type: Number },
     seller: { type: Schema.Types.ObjectId, ref: 'User' },
 })
 

@@ -9,7 +9,7 @@ export interface IBook {
     price: number
     year: number
     genre: string
-    language: string
+    bookLanguage: string
     seller: IUser
 }
 
