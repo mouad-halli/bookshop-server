@@ -2,7 +2,7 @@ import { existsSync, mkdirSync } from 'fs'
 import { extname } from 'path'
 import { createError } from '../utils/error';
 import { MAX_FILE_SIZE } from './environment';
-import { deleteFileIfExist } from '../utils/file';
+// import { deleteFileIfExist } from '../utils/file';
 import { diskStorage, memoryStorage } from 'multer';
 
 type DestinationCallback = (error: Error | null, destination: string) => void

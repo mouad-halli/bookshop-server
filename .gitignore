@@ -1,5 +1,6 @@
 /uploads
 *.rest
+/build
 
 # Logs
 logs
