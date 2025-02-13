@@ -13,26 +13,27 @@ const getCart = async (req: Request, res: Response, next: NextFunction) => {
         const { _id: userId } = req.user
         const cart: { items: ICartItem[], subTotal: Number } = { items: [], subTotal: 0 }
 
-        const userCart = await Cart.findOne({ owner: { _id: userId } }).select("items")
+        const userCart = await Cart.findOne({ owner: { _id: userId } }).populate({
+            path: 'items.product'
+        }).select("items")
 
-        if (userCart) {
-            cart.items = userCart.items
-            cart.subTotal = cart.items.reduce((accumulator, currentItem) => accumulator + (currentItem.product.price * currentItem.quantity), 0)
-        }
+        // if (userCart) {
+        //     cart.items = userCart.items
+        //     cart.subTotal = cart.items.reduce((accumulator, currentItem) => accumulator + (currentItem.product.price * currentItem.quantity), 0)
+        // }
 
-        res.status(OK).json(cart)
+        res.status(OK).json(userCart ? userCart.items : [])
     } catch (error) {
         next(error)
     }
 }
 
-const updateCart = async (req: Request, res: Response, next: NextFunction) => {
+const upsertCartItem = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { _id: userId } = req.user
         const userCart = await Cart.findOne({ owner: { _id: userId } })
-        const quantity = Number(req.params.quantity)
-        const productId = req.params.productId
-
+        const quantity = Number(req.query.quantity)
+        const productId = req.query.book_id
 
         if (!productId || !isValidObjectId(productId))
             return next(createError(BAD_REQUEST, 'invalid product id'))
@@ -42,14 +43,17 @@ const updateCart = async (req: Request, res: Response, next: NextFunction) => {
         if (!product)
             return next(createError(NOT_FOUND, "product not found"))
 
+        if (product.stockCount < quantity)
+            return next(createError(BAD_REQUEST, "product has insufficient quantity"))
+
         if (userCart) {
             const itemIndex = userCart.items.findIndex(cartItem => String(cartItem.product._id) === productId)
 
             if (itemIndex !== -1) {
-                if (quantity)
-                    userCart.items[itemIndex].quantity = quantity
-                else
+                if (quantity === 0)
                     userCart.items.splice(itemIndex, 1)
+                else
+                    userCart.items[itemIndex].quantity = quantity
             }
             else if (quantity)
                 userCart.items.push({ product, quantity })
@@ -72,6 +76,22 @@ const updateCart = async (req: Request, res: Response, next: NextFunction) => {
     }
 }
 
+const upsertCart = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const userCart = await Cart.findOne({ owner: req.user  })
+
+        if (userCart) {
+
+        }
+        else {
+
+        }
+
+    } catch (error) {
+        next(error)
+    }
+}
+
 export = {
-    getCart, updateCart
+    getCart, upsertCartItem, upsertCart
 }

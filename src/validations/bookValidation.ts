@@ -9,18 +9,21 @@ const createBookSchema = Joi.object({
     genre: Joi.string().required().valid(...Object.values(GENRES)),
     bookLanguage: Joi.string().required().valid(...Object.values(LANGUAGES)),
     price: Joi.number().min(0).required(),
-    year: Joi.number().min(1).integer().required()
+    year: Joi.number().min(1).max(new Date().getFullYear()).required(),
+    stockCount: Joi.number().min(0).integer().required(),
+    // image: Joi.any().required()
 })
 
-const updateeBookSchema = Joi.object({
+const updateBookSchema = Joi.object({
     title: Joi.string(),
     author: Joi.string(),
     description: Joi.string(),
     genre: Joi.string().valid(...Object.values(GENRES)),
     bookLanguage: Joi.string().valid(...Object.values(LANGUAGES)),
     price: Joi.number().min(0),
-    year: Joi.number().min(1).integer()
+    year: Joi.number().min(1).max(new Date().getFullYear()).integer(),
+    stockCount: Joi.number().min(0).integer()
 })
 
 export const ValidateCreateBook = validator(createBookSchema, { abortEarly: false })
-export const ValidateUpdateeBook = validator(updateeBookSchema, { abortEarly: false })
+export const ValidateUpdateBook = validator(updateBookSchema, { abortEarly: false })

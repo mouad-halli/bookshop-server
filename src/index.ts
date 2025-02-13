@@ -7,6 +7,7 @@ import userRoutes from './routes/user.routes'
 import authenticationRoutes from './routes/authentication.routes'
 import bookRoutes from './routes/book.routes'
 import cartRoutes from './routes/cart.routes'
+import orderRoutes from './routes/order.routes'
 import cookieParser from 'cookie-parser'
 import { Usertype } from './types/user'
 import passport from 'passport'
@@ -40,6 +41,7 @@ app.use('/user', userRoutes)
 app.use('/authentication', authenticationRoutes)
 app.use('/book', bookRoutes)
 app.use('/cart', cartRoutes)
+app.use('/order', orderRoutes)
 
 app.use((error: any, req: Request, res: Response, next: NextFunction) => {
 	const errorStatus = error.status || 500

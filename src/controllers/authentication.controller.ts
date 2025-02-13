@@ -66,7 +66,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
         res.status(OK)
         .cookie('refreshToken', generatedRefreshToken, { httpOnly: true })
         .cookie('accessToken', generatedAccessToken, { httpOnly: true })
-        .json({ firstname: user.firstname, lastname: user.lastname, email: user.email, imgUrl: user.imgUrl })
+        .json({ firstname: user.firstname, lastname: user.lastname, email: user.email, imgUrl: user.imgUrl, isSeller: user.isSeller })
 
     } catch (error) {
         next(error)

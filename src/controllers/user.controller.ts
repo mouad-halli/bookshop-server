@@ -147,7 +147,7 @@ const getUserListings = async (req: Request, res: Response, next: NextFunction) 
         if (!isValidObjectId(req.params.user_id))
             return next(createError(BAD_REQUEST, "invalid user id"))
 
-        const userListings = await getBooksByUserId(req.params.user_id)
+        const userListings = await getBooksByUserId(req.params.user_id, 0)
 
         res.status(OK).json(userListings)
 
@@ -161,7 +161,7 @@ const getMyListings = async (req: Request, res: Response, next: NextFunction) =>
 
     try {
 
-        const userListings = await getBooksByUserId(String(req.user._id))
+        const userListings = await getBooksByUserId(String(req.user._id), 0)
 
         res.status(OK).json(userListings)
 
@@ -171,8 +171,41 @@ const getMyListings = async (req: Request, res: Response, next: NextFunction) =>
 
 }
 
+const updateUserSellerStatus = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        await User.findOneAndUpdate(req.user._id, { isSeller: req.body.isSeller })
+        res.status(CREATED).send()
+    } catch (error) {
+        next(error)
+    }
+}
+
+const getUsersWithLastAddedBooks = async (req: Request, res: Response, next:NextFunction) => {
+    try {
+
+        const sellersLimit = Number(req.query.sellers_limit) || 5
+        const booksLimit = Number(req.query.books_limit) || 12
+
+        const sellers = await User.find(
+            { books: { $exists: true, $ne: [] } },
+            { books: { $slice: booksLimit } },
+            { limit: sellersLimit }
+        )
+        .populate({
+            path: "books",
+            select: "imageUrl"
+        })
+
+        res.status(OK).json(sellers)
+
+    } catch (error) {
+        next(error)
+    }
+}
+
 
 export = {
     getUser, createUser, updateUserInformation, upsertUserAddress, updateUserPassword,
-    deleteUser, getMe, getUserAddress, getUserListings, getMyListings/*updateUserImage*/
+    deleteUser, getMe, getUserAddress, getUserListings, getMyListings/*updateUserImage*/,
+    updateUserSellerStatus, getUsersWithLastAddedBooks
 }

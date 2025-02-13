@@ -1,4 +1,5 @@
 import { ObjectId } from "mongoose"
+import { IBook } from "./book"
 
 export interface IUser {
     _id: ObjectId
@@ -11,6 +12,7 @@ export interface IUser {
     accessToken?: string
     refreshToken?: string
     googleId?: string
+    books?: IBook
 }
 
 export interface UserDto extends Omit<IUser, '_id' | 'accessToken' | 'refreshToken'> {}

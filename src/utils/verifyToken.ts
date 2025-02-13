@@ -4,6 +4,7 @@ import { tokenPayload } from '../types/token'
 import User from '../models/user'
 import { createError } from './error'
 import { StatusCodes } from 'http-status-codes'
+import book from '../models/book'
 
 const { UNAUTHORIZED, NOT_FOUND, FORBIDDEN } = StatusCodes
 

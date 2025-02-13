@@ -7,7 +7,7 @@ const UserSchema = new Schema<IUser>({
 
     lastname: { type: String },
 
-    email: { type: String },
+    email: { type: String, unique: true },
 
     imgUrl: { type: String, default: null },
 
@@ -19,7 +19,9 @@ const UserSchema = new Schema<IUser>({
 
     refreshToken: { type: String, select: false },
 
-    googleId: { type: String, select: false }
+    googleId: { type: String, select: false },
+
+    books: [{ type: Schema.Types.ObjectId, ref: 'Book', select: false }]
 
 } )
 

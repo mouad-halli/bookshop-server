@@ -3,7 +3,7 @@ import { ICart, ICartItem } from "../types/cart";
 
 const CartItemSchema = new Schema<ICartItem>({
     product: { type: Schema.Types.ObjectId, ref: 'Book' },
-    quantity: { type: Number }
+    quantity: { type: Number, min: 1 }
 })
 
 // const CartItem = model<ICartItem>('CartItem', CartItemSchema)

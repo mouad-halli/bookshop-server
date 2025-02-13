@@ -4,7 +4,11 @@ import { verifyAuthentication } from "../middlewares/verifyAccessToken.middlewar
 
 const router = Router()
 
-router.get('/', /*verifyAuthentication,*/ cartController.getCart)
-router.post('/', /*verifyAuthentication,*/ cartController.updateCart)
+router.get('/', verifyAuthentication, cartController.getCart)
+
+//TO DO: -add query validation for book_id and quantity
+router.put('/cart-item', verifyAuthentication, cartController.upsertCartItem)
+
+router.put('/cart', verifyAuthentication, cartController.upsertCart)
 
 export default router

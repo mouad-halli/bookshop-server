@@ -11,6 +11,8 @@ export interface IBook {
     genre: string
     bookLanguage: string
     seller: IUser
+    stockCount: number
+    imageUrl: string | null
 }
 
 export interface UpdateBook extends Partial<IBook> {}
