@@ -22,9 +22,12 @@ const { INTERNAL_SERVER_ERROR } = STATUS_CODES
 
 const app = express()
 
+// app.use(cors({
+// 	origin: [CLIENT_URL],
+// 	credentials: true,
+// }))
 app.use(cors({
-	origin: [CLIENT_URL],
-	credentials: true,
+	origin: "*",
 }))
 
 app.use(cookieParser())
@@ -46,7 +49,7 @@ app.get('/', (req: Request, res: Response) => {
     res.send('Hello World')
 })
 
-app.options("*", cors({ origin: [CLIENT_URL], credentials: true }));
+// app.options("*", cors({ origin: [CLIENT_URL], credentials: true }));
 
 app.use((error: any, req: Request, res: Response, next: NextFunction) => {
 	const errorStatus = error.status || 500
