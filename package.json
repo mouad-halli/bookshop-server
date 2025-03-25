@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest --watchAll",
     "dev": "npx nodemon",
-    "build": "npx rimraf ./build && tsc",
+    "build": "rm -rf ./build && tsc",
     "start": "npm run build && node build/index.js",
     "seed": "npx ts-node ./api/seed.ts"
   },
