@@ -23,9 +23,11 @@ const { INTERNAL_SERVER_ERROR } = STATUS_CODES
 const app = express()
 
 app.use(cors({
+	origin: [CLIENT_URL],
 	credentials: true,
-	origin: CLIENT_URL
 }))
+
+app.options("*", cors({ origin: [CLIENT_URL], credentials: true }));
 
 app.use(cookieParser())
 
