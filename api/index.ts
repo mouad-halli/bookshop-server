@@ -27,8 +27,6 @@ app.use(cors({
 	credentials: true,
 }))
 
-app.options("*", cors({ origin: [CLIENT_URL], credentials: true }));
-
 app.use(cookieParser())
 
 app.use(express.json())
@@ -47,6 +45,8 @@ app.use('/order', orderRoutes)
 app.get('/', (req: Request, res: Response) => {
     res.send('Hello World')
 })
+
+app.options("*", cors({ origin: [CLIENT_URL], credentials: true }));
 
 app.use((error: any, req: Request, res: Response, next: NextFunction) => {
 	const errorStatus = error.status || 500
