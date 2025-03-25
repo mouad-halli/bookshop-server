@@ -42,6 +42,9 @@ app.use('/authentication', authenticationRoutes)
 app.use('/book', bookRoutes)
 app.use('/cart', cartRoutes)
 app.use('/order', orderRoutes)
+app.get('/', (req: Request, res: Response) => {
+    res.send('Hello World')
+})
 
 app.use((error: any, req: Request, res: Response, next: NextFunction) => {
 	const errorStatus = error.status || 500
