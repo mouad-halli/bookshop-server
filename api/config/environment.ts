@@ -3,7 +3,7 @@ dotenv.config()
 
 const PORT: number = Number(process.env.PORT || 8000)
 
-const MONGODB_URI: string = String(process.env.MONGODB_URI)
+const DB_LINK: string = String(process.env.DB_LINK)
 
 // Front end
 const CLIENT_URL: string = String(process.env.CLIENT_URL)
@@ -38,7 +38,7 @@ const CLOUDINARY_API_SECRET: string =  String(process.env.CLOUDINARY_API_SECRET)
 
 
 export {
-    PORT, MONGODB_URI, CLIENT_URL, SERVER_URL, 
+    PORT, DB_LINK, CLIENT_URL, SERVER_URL, 
     ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET, 
     ACCESS_TOKEN_EXPIRATION, REFRESH_TOKEN_EXPIRATION,
     MAX_FILE_SIZE, GOOGLE_CLIENT_SECRET,
