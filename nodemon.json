@@ -1,6 +1,6 @@
 {
-    "watch": ["src"],
+    "watch": ["api"],
     "ext": ".ts,.js",
-    "ignore": ["src/**/*.test.ts"],
-    "exec": "npx ts-node ./src/index.ts"
+    "ignore": ["api/**/*.test.ts"],
+    "exec": "npx ts-node ./api/index.ts"
   }

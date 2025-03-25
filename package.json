@@ -8,7 +8,7 @@
     "dev": "npx nodemon",
     "build": "rimraf ./build && tsc",
     "start": "npm run build && node build/index.js",
-    "seed": "npx ts-node ./src/seed.ts"
+    "seed": "npx ts-node ./api/seed.ts"
   },
   "repository": {
     "type": "git",
