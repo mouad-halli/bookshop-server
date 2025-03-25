@@ -1,11 +1,11 @@
 import mongoose from 'mongoose'
-import { DB_LINK } from './environment'
+import { MONGODB_URI } from './environment'
 
 mongoose.set("strictQuery", false)
 
 const connectToDatabase = async () => {
     try {
-        await mongoose.connect(String(DB_LINK))
+        await mongoose.connect(String(MONGODB_URI))
     } catch (error) {
         throw error
     }
