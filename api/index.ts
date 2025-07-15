@@ -27,6 +27,8 @@ app.use(cors({
 	credentials: true,
 }))
 
+app.options('*', cors()) // Pre-flight request for CORS
+
 app.use(cookieParser())
 
 app.use(express.json())
