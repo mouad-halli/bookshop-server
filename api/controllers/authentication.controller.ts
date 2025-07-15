@@ -65,8 +65,16 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
         })
 
         res.status(OK)
-        .cookie('refreshToken', generatedRefreshToken, { httpOnly: true })
-        .cookie('accessToken', generatedAccessToken, { httpOnly: true })
+        .cookie('refreshToken', generatedRefreshToken, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'none',
+        })
+        .cookie('accessToken', generatedAccessToken, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'none',
+        })
         .json({ firstname: user.firstname, lastname: user.lastname, email: user.email, imgUrl: user.imgUrl, isSeller: user.isSeller })
 
     } catch (error) {
