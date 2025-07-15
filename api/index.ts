@@ -57,7 +57,7 @@ app.use((error: any, req: Request, res: Response, next: NextFunction) => {
 
 app.listen(PORT, () => {
 	console.log(`server listening on port ${PORT}`)
-	connectToDatabase()
+	// connectToDatabase()
 })
 
 process.on('uncaughtException', () => {})

@@ -5,6 +5,7 @@ import User from '../models/user'
 import { createError } from './error'
 import { StatusCodes } from 'http-status-codes'
 import book from '../models/book'
+import dbConnect from '../lib/mongoose'
 
 const { UNAUTHORIZED, NOT_FOUND, FORBIDDEN } = StatusCodes
 
@@ -24,6 +25,7 @@ export const verifyToken = async (token: string | undefined, tokenType: string) 
     } catch (error) {
         throw createError(UNAUTHORIZED, "invalid token")
     }
+    await dbConnect();
     const user = await User.findById(userId).select("+accessToken")
 
     if (!user)

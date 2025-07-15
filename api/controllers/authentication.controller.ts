@@ -8,12 +8,13 @@ import {
     ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET, 
     ACCESS_TOKEN_EXPIRATION, REFRESH_TOKEN_EXPIRATION, CLIENT_URL
 } from '../config/environment'
+import dbConnect from "../lib/mongoose"
 
 const { OK, CREATED, BAD_REQUEST, UNAUTHORIZED, PERMANENT_REDIRECT } = StatusCodes
 
 const register = async (req: Request, res: Response, next: NextFunction) => {
     try {
-
+        await dbConnect();
         if (await User.findOne({ email: req.body.email })) {
             return next(createError(BAD_REQUEST, "\"email\" this email is already in use"))
         }
@@ -37,7 +38,7 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
 
 const login = async (req: Request, res: Response, next: NextFunction) => {
     try {
-
+        await dbConnect();
         const user = await User.findOne({email: req.body.email}).select("+password")
 
         if (!user)
@@ -75,7 +76,7 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 
 const logout = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        
+        await dbConnect();
         await User.findOneAndUpdate({ _id: req.user._id }, {
             accessToken: null, refreshToken: null
         })
@@ -89,7 +90,7 @@ const logout = async (req: Request, res: Response, next: NextFunction) => {
 
 const refreshAccessToken = async (req: Request, res: Response, next: NextFunction) => {
     try {
-
+        await dbConnect();
         const accessToken = req.cookies.accessToken
 
         const { exp } = jwt.decode(accessToken) as jwt.JwtPayload
@@ -121,10 +122,9 @@ const refreshAccessToken = async (req: Request, res: Response, next: NextFunctio
 
 const googleAuth = async (req: Request, res: Response, next: NextFunction) => {
     try {
-
+        await dbConnect();
         if (!req.user)
             next()
-
         const generatedRefreshToken = jwt.sign(
             { _id: req.user._id }, REFRESH_TOKEN_SECRET,
             { expiresIn: REFRESH_TOKEN_EXPIRATION }
