@@ -8,6 +8,7 @@ import Address from "../models/address"
 import Book from "../models/book"
 import { isValidObjectId } from "mongoose"
 import { getBooksByUserId } from "../services/book.service"
+import dbConnect from "../lib/mongoose"
 
 const { OK, CREATED, BAD_REQUEST } = StatusCodes
 
@@ -182,6 +183,7 @@ const updateUserSellerStatus = async (req: Request, res: Response, next: NextFun
 
 const getUsersWithLastAddedBooks = async (req: Request, res: Response, next:NextFunction) => {
     try {
+        await dbConnect();
 
         const sellersLimit = Number(req.query.sellers_limit) || 5
         const booksLimit = Number(req.query.books_limit) || 12
